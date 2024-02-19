@@ -9,13 +9,13 @@ from domains.users.dto import (
     UserPostResponse,
 )
 
-name = "Users"
+name = "users"
 router = APIRouter()
 
 
 @router.post(f"/{name}/create")
 async def create(
-    payload=UserPostRequest,
+    payload: UserPostRequest,
     db=Depends(provide_session),
 ) -> UserPostResponse:
     user_service = UserService(user_repository=UserRepository(session=db))
