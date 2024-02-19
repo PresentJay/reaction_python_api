@@ -14,9 +14,9 @@ from routers import router as main_router
 init_db(config=get_config())
 
 app = FastAPI(
-    openapi_url="/adv-report/openapi.json",
-    docs_url="/adv-report/docs",
-    redoc_url="/adv-report/redoc",
+    openapi_url="/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
 
