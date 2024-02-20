@@ -25,7 +25,7 @@ async def create(
         user_pw=payload.user_password,
     )
 
-    return UserPostResponse(id=user_id)
+    return UserPostResponse(id=user_id).dict()
 
 
 @router.get(f"/{name}/{{user_id}}")
@@ -47,4 +47,4 @@ async def get(
             created_at=user_info.created_at,
             updated_at=user_info.updated_at,
         )
-    )
+    ).dict()

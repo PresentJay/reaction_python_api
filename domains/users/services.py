@@ -28,6 +28,6 @@ class UserService(Service):
     def create_user(self, *, user_name, user_pw) -> int:
         user_id = self._user_repository.create_user(
             user_name=user_name,
-            user_pw=user_pw,
+            password=user_pw,
         )
         return user_id
