@@ -20,6 +20,7 @@ class UserRepository:
             name=user_name,
             password=password,
         )
+
         self._session.add(user_entity)
         self._session.commit()
 
