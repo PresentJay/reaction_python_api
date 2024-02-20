@@ -20,10 +20,10 @@ class UserService(Service):
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Model Id not found",
+                detail="User Id not found",
             )
 
-        return self._deserialization_model(user=user)
+        return user
 
     def create_user(self, *, user_name, user_pw) -> int:
         user_id = self._user_repository.create_user(
