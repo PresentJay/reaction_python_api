@@ -1,13 +1,14 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserItemGetResponse(BaseModel):
     class DTO(BaseModel):
         id: int
         name: str
-        flavor_genre_first: str
-        flavor_genre_second: str
-        flavor_genre_third: str
+        flavor_genre_first: Optional[str]
+        flavor_genre_second: Optional[str]
+        flavor_genre_third: Optional[str]
         created_at: str
         updated_at: str
 
