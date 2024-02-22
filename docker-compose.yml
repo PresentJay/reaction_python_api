@@ -10,6 +10,7 @@ services:
     environment:
       POSTGRESQL_USER: postgres
       POSTGRESQL_PASSWORD: password
+      JWT_SECRET_KEY: "5c2fea6305c8c209714e73b265958703e65c4b40dec4c388dddac06f3f791ec7"
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/app

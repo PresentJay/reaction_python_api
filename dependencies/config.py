@@ -10,6 +10,12 @@ class DefaultConfig(BaseSettings):
     postgresql_user: str = os.getenv("POSTGRESQL_USER", "")
     postgresql_password: str = os.getenv("POSTGRESQL_PASSWORD", "")
 
+    jwt_secret_key: str = os.getenv(
+        "JWT_SECRET_KEY",
+        "5c2fea6305c8c209714e73b265958703e65c4b40dec4c388dddac06f3f791ec7",
+    )
+    jwt_expire_minutes: int = os.getenv("JWT_TOKEN_EXPIRE_MINUTES", 600)
+
 
 @lru_cache
 def get_config():

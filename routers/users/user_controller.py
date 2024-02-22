@@ -1,5 +1,12 @@
-from fastapi import APIRouter, Depends
+import arrow
+from fastapi import APIRouter, Depends, HTTPException, status, Form
+
 from dependencies.database import provide_session
+from dependencies.auth import (
+    Token,
+    verify_password,
+    create_access_token,
+)
 from domains.users.services import UserService
 from domains.users.repositories import UserRepository
 from domains.users.dto import (
@@ -28,7 +35,7 @@ async def create(
 
 
 @router.get(f"/{name}/{{user_id}}")
-async def get(
+async def get_item(
     user_id,
     db=Depends(provide_session),
 ) -> UserItemGetResponse:
@@ -43,7 +50,27 @@ async def get(
             flavor_genre_first=user.flavor_genre_first,
             flavor_genre_second=user.flavor_genre_second,
             flavor_genre_third=user.flavor_genre_third,
-            created_at=user.created_at,
-            updated_at=user.updated_at,
+            created_at=str(arrow.get(user.created_at)),
+            updated_at=str(arrow.get(user.updated_at)),
         )
     )
+
+
+@router.post(f"/{name}/login")
+async def login(
+    user_name: str = Form(...),
+    user_password: str = Form(...),
+    db=Depends(provide_session),
+) -> Token:
+    user_service = UserService(user_repository=UserRepository(session=db))
+    user = user_service.get_user_by_name(user_name=user_name)
+
+    if not verify_password(user_password, user.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="비밀번호가 틀립니다.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token = create_access_token(data={"sub": user.id})
+    return Token(token=access_token, type="bearer")
